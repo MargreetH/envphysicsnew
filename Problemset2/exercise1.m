@@ -1,0 +1,124 @@
+%%
+clc; clear all; close all;
+
+%Constants
+S_0 = 1360;
+A_a = 0.22;
+tau_a = 0.56;
+A_g = 0.12;
+c = 5;
+T_r = 270;
+sigma = 5.67e-8;
+b = c/(4*T_r^3);
+
+% range of Alpha's to investigate
+alpha = 0.15:0.01:1;
+%create array to hold the answers.
+Tg_Ta = zeros(2,length(alpha));
+%create matrices for calculations Ax=y
+A = zeros(3,2);
+y = zeros(3,1);
+heatflux = zeros(1,length(alpha));
+%Fill matrices with values independent of alpha
+y(1,1) = S_0/4 * (1-A_a) * tau_a * (1-A_g);
+y(2,1) = S_0/4 * (1-A_a) * (1-tau_a);
+y(3,1) = y(1,1)+y(2,1);
+A(1,1) = b-sigma;
+A(1,2) = -b;
+
+
+for i = 1:1:length(alpha)
+    A(2,1) = alpha(i)* sigma + b;
+    A(2,2) = -b -2 * alpha(i) * sigma;
+    A(3,1) = (1-alpha(i)) * sigma;
+    A(3,2) = alpha(i) * sigma;
+    x = A\y;
+    Tg_Ta(1,i) = x(1);
+    Tg_Ta(2,i) = x(2);
+    heatflux(i) = b * (x(1)-x(2));
+end
+
+%Gain the temperature instead of T^4:
+Tg_Ta = Tg_Ta .^ (1/4);
+%Tg_Ta = imag(Tg_Ta);
+figure;
+plot(alpha, Tg_Ta(1,:), alpha, Tg_Ta(2,:),'LineWidth',2);
+
+set(gca,'FontSize',10) % make fontsize bigger
+set(gcf,'color','w'); % Set bg color to white
+
+
+xlabel('alpha')
+ylabel('Temperature [K]')
+legend('T_g', 'T_a');
+title('Ground and atpmosphere temperatures as a function of atmosphere absorption alpha')
+
+figure;
+plot(alpha, heatflux,'LineWidth',2);
+xlabel('alpha')
+ylabel('heat flux [W/m^2]')
+title('Heat flux as a function of alpha')
+
+index = find(alpha==0.8);
+disp('Tg for alpha = 0.8');
+disp(Tg_Ta(1,index));
+disp('Ta for alpha = 0.8');
+disp(Tg_Ta(2,index));
+
+
+
+
+%% same but using only two equations
+
+clc; clear all; close all;
+
+%Constants
+S_0 = 1360;
+A_a = 0.22;
+tau_a = 0.56;
+A_g = 0.12;
+c = 5;
+T_r = 270;
+sigma = 5.67e-8;
+b = c/(4*T_r^3);
+
+% range of Alpha's to investigate
+alpha = 0.1:0.01:1;
+%create array to hold the answers.
+Tg_Ta = zeros(2,length(alpha));
+%create matrices for calculations Ax=y
+A = zeros(2,2);
+y = zeros(2,1);
+%Fill matrices with values independent of alpha
+y(1,1) = S_0/4 * (1-A_a) * tau_a * (1-A_g);
+%y(2,1) = S_0/4 * (1-A_a) * (1-tau_a);
+
+A(1,1) = b-sigma;
+A(1,2) = -b;
+
+
+for i = 1:1:length(alpha)
+    A(2,1) = alpha(i)* sigma + b;
+    A(2,2) = -b -2 * alpha(i) * sigma;
+    x = A\y;
+    Tg_Ta(1,i) = x(1);
+    Tg_Ta(2,i) = x(2);
+end
+
+%Gain the temperature instead of T^4:
+Tg_Ta = Tg_Ta .^ (1/4);
+
+plot(alpha, Tg_Ta(1,:), alpha, Tg_Ta(2,:),'LineWidth',2);
+
+set(gca,'FontSize',10) % make fontsize bigger
+set(gcf,'color','w'); % Set bg color to white
+
+
+xlabel('alpha')
+ylabel('Temperature [K]')
+legend('T_g', 'T_a');
+title('Ground and atpmosphere temperatures as a function of atmosphere absorption alpha')
+
+
+
+%%
