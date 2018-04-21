@@ -37,7 +37,6 @@ while (error > maxError) && (counter < maxIterations);
 counter = counter + 1;
 end
 
-disp(counter);
 labda = m / gamma(1/k + 1);
 
 end
