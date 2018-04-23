@@ -3,11 +3,7 @@ clc; clear all; close all;
 importyear;
 importSolar;
 %Remove first nonsensical element
-LW_dn(1) = [];
-LW_up(1) = [];
-SW_dn(1) = [];
-SW_up(1) = [];
-hyea(1) = [];
+
 
 
 %% compute mean for 1 year
@@ -76,8 +72,7 @@ while cond
 
 end
 
-absorptionEarth = (1-averages(4)/averages(3));
-reflection = averages(4)/averages(3)
+reflection = averages(3)/averages(4)
 
 
 %% annual mean top atmosphere at cabauw
