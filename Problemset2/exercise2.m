@@ -1,12 +1,10 @@
 %% refreshes the data
 clc; clear all; close all;
-importyear;
+importyear; %Simply imports the data cont
 importSolar;
 %Remove first nonsensical element
 
-
-
-%% compute mean for 1 year
+%% compute mean for year 2012
 
 currentYear = hyea(1);
 counter = 1;
@@ -28,15 +26,12 @@ yearCounter = 1;
 clc;
 while cond
     
-    
   i = i + 1; %Incremented each loop cycle;
-  
   if (hyea(i) ~= currentYear) 
       averages(1,yearCounter) = currentLWupSum /correctValues;
       averages(2,yearCounter) = currentLWdnSum /correctValues;
       averages(3,yearCounter) = currentSWupSum /correctValues;
-      averages(4,yearCounter) = currentSWdnSum /correctValues;
-      
+      averages(4,yearCounter) = currentSWdnSum /correctValues;      
       currentYear = hyea(i);
       correctvalues = 0;
       yearCounter = yearCounter+1;
@@ -55,7 +50,7 @@ while cond
       currentSWupSum = currentSWupSum + SW_up(i);
       currentSWdnSum = currentSWdnSum + SW_dn(i);
   else %Datapoint is invalid
-      
+      %do nothing
   end
   
   if numberOfYears == 1 && i == length(hyea) %we have only one year, and 
@@ -81,19 +76,9 @@ x = 1:0.01:365; %In julian days
 y = zeros(1,length(x));
 S_0 = 1360; 
 
-
 for i = 1:1:length(x)
-    y(i)=solarZenithAngle(x(i)) * S_0;
-    
+   y(i)=solarZenithAngle(x(i)) * S_0;
 end
 
 average = mean(y)
-
-
-
-
-
-
-
-
 %%

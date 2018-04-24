@@ -9,26 +9,18 @@ R_d = 287.04;
 rho_sfc =  p_sfc / (R_d * T_sfc);
 g=9.81;
 
-
 %% a)
 dz =1;
 z = 0:dz:10^4;
-
 p_isoT = p_sfc .* exp(-g .* z/(R_d * T_sfc));
-
 
 figure;
 plot(z,p_isoT,'LineWidth',2);
 xlabel('z [m]')
 ylabel('p [Pa]')
 title('Pressure decline with height for an isothermal atmosphere')
-
 set(gca,'FontSize',10) % make fontsize bigger
 set(gcf,'color','w'); % Set bg color to white
-
-
-
-
 
 rho_isoT = p_isoT ./(R_d*T_sfc);
 figure;
@@ -42,12 +34,10 @@ disp(p_isoT(5001));
 disp('density at 5000 m');
 disp(rho_isoT(5001));
 
-%% b) do the same
+%% b) do the same for different surface temperature
 
 p_isoT2 = p_sfc .* exp(-g .* z/(R_d * T_sfc2));
 rho_isoT2 = p_isoT2 ./(R_d*T_sfc2);
-
-
 
 figure;
 plot(z,p_isoT, z, p_isoT2,'LineWidth',2);
@@ -68,7 +58,6 @@ title('Density decline with height for an isothermal atmosphere')
 set(gca,'FontSize',10) % make fontsize bigger
 set(gcf,'color','w'); % Set bg color to white
 horzPressureGradient = (p_isoT2(5001)-p_isoT(5000))/(500*10^3);
-
 rhoInBetween = (rho_isoT(5001) + rho_isoT2(5001))/2;
 du_dt = -horzPressureGradient /rhoInBetween
 
@@ -93,13 +82,9 @@ T_var(1) = T_sfc;
 for i=1:1:length(zvector)-1
     zi = zvector(i);
     T_var(i+1) = 2 * (T_var(1) - gamma * (zi + 0.5*dZ))-T_var(i);
-
-    
     p_Tvariable(i+1) = p_Tvariable(i) .* exp(-g .* dZ/(R_d * T_var(i)));
-    rho_Tvariable(i+1) =  p_Tvariable(i+1)/(R_d * T_var(i));
-    
+    rho_Tvariable(i+1) =  p_Tvariable(i+1)/(R_d * T_var(i));  
 end
-
 
 figure;
 plot(z,p_isoT, zvector, p_Tvariable,'LineWidth',2);
@@ -116,7 +101,6 @@ xlabel('z [m]')
 ylabel('density [kg/m^3]')
 legend('Isothermal atmosphere', 'Varying temperature, gamma = 6E-3')
 title('Density decline with height for an isothermal atmosphere, Tsfc = 293')
-
 set(gca,'FontSize',10) % make fontsize bigger
 set(gcf,'color','w'); % Set bg color to white
 
@@ -132,6 +116,7 @@ else
     longP = p_isoT;
     shortP = p_Tvariable;
 end
+
 difference = 0;
 
 for i=1:1:length(shortV)
@@ -174,7 +159,6 @@ display(WVP_1);
 dZ = 1; %can be changed for finetuning;
 totalZ = 10^4;
 zvector = 0:dZ:totalZ;
-
 temperatures = 260:1:310;
 gamma = 6E-3;
 %Create the z vector to hold the steps
@@ -220,25 +204,3 @@ ylabel('Water Vapor Path [kg/m^3]')
 title('Maximum Water Vapor Path as a function of surface temperature')
 set(gca,'FontSize',10) % make fontsize bigger
 set(gcf,'color','w'); % Set bg color to white
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

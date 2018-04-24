@@ -2,17 +2,13 @@ function [k,labda,error] = findWeibull(v,m,maxError)
 %FINDWEIBULL Finds the weibull distribution parameters k and labda using
 %the variance v and the mean m of the distribution.
 %   
-
 correctValue = sqrt(v)/m;
 first_interval_k = [0.0001 10];
 dk = 1/10;
 kvector = first_interval_k(1):first_interval_k(2)*dk:first_interval_k(2);
-
 counter = 0;
 error = 10000;
 maxIterations = 1000;
-
-
 
 while (error > maxError) && (counter < maxIterations);
 
