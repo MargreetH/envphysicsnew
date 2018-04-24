@@ -188,7 +188,6 @@ WVP = zeros(1,length(temperatures));
 for j=1:1:length(temperatures)
     
     %Create vectors to hold the values for the pressure and density
-
     p_Tvariableii(j,1) = p_sfc;
     rho_Tvariableii(j,1) = rho_sfc;
     T_varii(j,1) = temperatures(j);
@@ -201,15 +200,12 @@ for j=1:1:length(temperatures)
         
     end
     
-
     %compute q_v
     e_sat = 610.78 .* exp(17.2694 .* (T_varii(j,:)-273.16)./(T_varii(j,:)-35.86));
     r_sat = 0.622 * e_sat ./ p_Tvariableii(j,:);
     m_v = rho_Tvariableii(j,:) .* r_sat;
-    q_v2 = m_v ./ (m_v + rho_Tvariableii(j,:));
-    
-    WVP(j) = dZ/2 * (rho_Tvariableii(j,1)*q_v2(1) + rho_Tvariableii(j,end)*q_v2(end));
-   
+    q_v2 = m_v ./ (m_v + rho_Tvariableii(j,:));   
+    WVP(j) = dZ/2 * (rho_Tvariableii(j,1)*q_v2(1) + rho_Tvariableii(j,end)*q_v2(end));   
 
 for k=2:1:(length(zvector)-1)
     WVP(j) = WVP(j) + dZ * (rho_Tvariableii(j,k)*q_v2(k));
@@ -219,9 +215,9 @@ end
 
 figure;
 plot(temperatures,WVP,'LineWidth',2);
-xlabel('temperature [K]')
-ylabel('Water Vapor Pressure [kg/m^3]')
-title('Maximum Water Vapor Path as a function of temperature')
+xlabel('surface temperature [K]')
+ylabel('Water Vapor Path [kg/m^3]')
+title('Maximum Water Vapor Path as a function of surface temperature')
 set(gca,'FontSize',10) % make fontsize bigger
 set(gcf,'color','w'); % Set bg color to white
 
